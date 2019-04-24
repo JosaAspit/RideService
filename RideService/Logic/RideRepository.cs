@@ -8,9 +8,6 @@ namespace RideService.Logic
 {
     public class RideRepository : BaseRepository
     {
-        public List<Ride> GetRides()
-        {
-            List<Ride> rides = new List<Ride>();
-        }
+        
     }
 }

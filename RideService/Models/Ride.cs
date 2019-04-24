@@ -55,19 +55,6 @@ namespace RideService.Models
             set { id = value; }
         }
 
-        public int NumberOfShutdowns()
-        {
-
-        }
-
-        public int DaysSinceLasyShutdown()
-        {
-
-        }
-
-        public string GetShortDescription()
-        {
-
-        }
+       
     }
 }
