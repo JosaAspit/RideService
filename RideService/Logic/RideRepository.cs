@@ -31,7 +31,7 @@ namespace RideService.Logic
         public List<Ride> GetRides()
         {
             List<Ride> rides = new List<Ride>();
-            string sql = "SELECT * FROM Rides";
+            string sql = "SELECT * FROM dbo.Rides";
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)

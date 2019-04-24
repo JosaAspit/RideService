@@ -9,7 +9,7 @@ namespace RideService.Logic
 {
     public class BaseRepository
     {
-        private string conString = @"Data Source=cvdb3,1488;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private string conString = @"Data Source=cvdb3,1488;Initial Catalog=RideServicesDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public DataSet ExecuteQuery(string sql)
         {
