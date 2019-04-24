@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace RideService.Models
 {
+    public enum Status { Working, Broken, BeingRepaired }
     public class Report
     {
+        
         private int id;
         private Ride ride;
         private Status status;
