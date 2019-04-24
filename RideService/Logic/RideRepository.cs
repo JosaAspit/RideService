@@ -12,6 +12,7 @@ namespace RideService.Logic
         public Ride GetRide(int id)
         {
             CategoryRepository categoryRepository = new CategoryRepository();
+            ReportRepository reportRepository = new ReportRepository();
 
             string sql = $"SELECT * FROM Rides WHERE RideId = {id}";
             DataSet ds = ExecuteQuery(sql);
@@ -19,8 +20,10 @@ namespace RideService.Logic
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
+                List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
 
                 Ride ride = new Ride(
+                    reports,
                     (Status)row["Status"],
                     rideCategory,
                     (string)row["Description"],
