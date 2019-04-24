@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace RideService.Logic
 {
-    public class RideRepository : BaseRepository
+    public class ReportRepository : BaseRepository
     {
-        public List<Ride> GetRides()
+        public List<Report> GetReportsForRide(int id)
         {
-            List<Ride> rides = new List<Ride>();
-            string sql =
-                "SELECT Rides.Name, Rides.Status, Rides.Description, Reports. FROM Rides" +
-                "INNER JOIN Reports ON Rides.RideId = Reports.RideId";
+            List<Report> reports = new List<Report>();
+            string sql = $"SELECT * FROM Reports WHERE RideId = {id}";
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-
+                
             }
         }
     }
