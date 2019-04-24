@@ -11,10 +11,10 @@ namespace RideService.Pages.Rides
 {
     public class IndexModel : PageModel
     {
+        RideRepository rp = new RideRepository();
         public List<Ride> Rides { get; set; }
         public void OnGet()
         {
-            RideRepository rp = new RideRepository();
             Rides = rp.GetRides();
         }
     }

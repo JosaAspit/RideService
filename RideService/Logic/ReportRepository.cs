@@ -9,10 +9,10 @@ namespace RideService.Logic
 {
     public class ReportRepository : BaseRepository
     {
-        RideRepository rideRepository = new RideRepository();
-
         public List<Report> GetReportsForRide(int id)
         {
+            RideRepository rideRepository = new RideRepository();
+
             List<Report> reports = new List<Report>();
             string sql = $"SELECT * FROM Reports WHERE RideId = {id}";
             DataSet ds = ExecuteQuery(sql);
