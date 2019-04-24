@@ -11,6 +11,13 @@ namespace RideService.Models
         private string name;
         private string description;
 
+        public RideCategory(string description, string name, int id)
+        {
+            Description = description;
+            Name = name;
+            Id = id;
+        }
+
         public string Description
         {
             get { return description; }
