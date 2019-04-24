@@ -23,6 +23,11 @@ namespace RideService.Models
             Id = id;
         }
 
+        public Ride(List<Report> reports, Status status, RideCategory category, string description, string name, int id) : this(status, category, description, name, id)
+        {
+            Reports = reports;
+        }
+
         public List<Report> Reports
         {
             get { return reports; }

@@ -9,20 +9,27 @@ namespace RideService.Logic
 {
     public class RideRepository : BaseRepository
     {
-        private RideCategory GetRideCategory(int id)
+        CategoryRepository categoryRepository = new CategoryRepository();
+        ReportRepository reportRepository = new ReportRepository();
+
+        public Ride GetRide(int id)
         {
-            string sql = $"SELECT * FROM RideCategories WHERE RideCategoryId = {id}";
+            string sql = $"SELECT * FROM Rides WHERE RideId = {id}";
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-                RideCategory rideCategory = new RideCategory(
+                RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
+
+                Ride ride = new Ride(
+                    (Status)row["Status"],
+                    rideCategory,
                     (string)row["Description"],
                     (string)row["Name"],
-                    (int)row["RideCategoryId"]
+                    (int)row["RideId"]
                 );
 
-                return rideCategory;
+                return ride;
             }
 
             return null;
@@ -36,9 +43,11 @@ namespace RideService.Logic
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-                RideCategory rideCategory = GetRideCategory((int)row["CategoryId"]);
+                RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
+                List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
 
                 Ride ride = new Ride(
+                    reports,
                     (Status)(int)row["Status"],
                     rideCategory,
                     (string)row["Description"],
