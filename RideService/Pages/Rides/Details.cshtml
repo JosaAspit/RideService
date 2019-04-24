@@ -1,0 +1,54 @@
+﻿@page "{id}"
+@model RideService.Pages.Rides.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_Layout";
+}
+
+<h1>@Model.Ride.Name - Details</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ride.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ride.Category.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ride.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ride.Description)
+            </th>
+            <th>
+                Times broken
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Rides)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
