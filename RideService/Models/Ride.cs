@@ -14,6 +14,15 @@ namespace RideService.Models
         private Status status;
         private List<Report> reports;
 
+        public Ride(Status status, RideCategory category, string description, string name, int id)
+        {
+            Status = status;
+            Category = category;
+            Description = description;
+            Name = name;
+            Id = id;
+        }
+
         public List<Report> Reports
         {
             get { return reports; }
@@ -55,6 +64,19 @@ namespace RideService.Models
             set { id = value; }
         }
 
-       
+        //public int NumberOfShutdowns()
+        //{
+
+        //}
+
+        //public int DaysSinceLasyShutdown()
+        //{
+
+        //}
+
+        //public string GetShortDescription()
+        //{
+
+        //}
     }
 }

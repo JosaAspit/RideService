@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RideService.Logic
 {
-    public class RideRepository : BaseRepository
+    public class ReportRepository : BaseRepository
     {
         private RideCategory GetRideCategory(int id)
         {
@@ -28,10 +28,9 @@ namespace RideService.Logic
             return null;
         }
 
-        public List<Ride> GetRides()
+        private Ride GetRide(int id)
         {
-            List<Ride> rides = new List<Ride>();
-            string sql = "SELECT * FROM Rides";
+            string sql = $"SELECT * FROM Rides WHERE RideId = {id}";
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)
@@ -39,17 +38,41 @@ namespace RideService.Logic
                 RideCategory rideCategory = GetRideCategory((int)row["CategoryId"]);
 
                 Ride ride = new Ride(
-                    (Status)(int)row["Status"],
+                    (Status)row["Status"],
                     rideCategory,
                     (string)row["Description"],
                     (string)row["Name"],
                     (int)row["RideId"]
                 );
 
-                rides.Add(ride);
+                return ride;
             }
 
-            return rides;
+            return null;
+        }
+
+        public List<Report> GetReportsForRide(int id)
+        {
+            List<Report> reports = new List<Report>();
+            string sql = $"SELECT * FROM Reports WHERE RideId = {id}";
+            DataSet ds = ExecuteQuery(sql);
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                Ride ride = GetRide((int)row["RideId"]);
+
+                Report report = new Report(
+                    (string)row["Notes"],
+                    (DateTime)row["ReportTime"],
+                    (Status)row["Status"],
+                    ride,
+                    (int)row["RideId"]
+                );
+
+                reports.Add(report);
+            }
+
+            return reports;
         }
     }
 }
