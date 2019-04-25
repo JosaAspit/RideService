@@ -20,15 +20,15 @@ namespace RideService.Pages.Rides
         [BindProperty(SupportsGet = true)]
         public string SearchName { get; set; }
         [BindProperty(SupportsGet = true)]
-        public Status SearchStatus { get; set; }
+        public Status SearchStatus { get; set; } = (Status)(-1);
         [BindProperty(SupportsGet = true)]
-        public int SearchCategoryId { get; set; }
+        public int SearchCategoryId { get; set; } = -1;
         public void OnGet()
         {
-            CategoryIds = new SelectList(new List<RideCategory> { new RideCategory("våd", "vandland", 1), new RideCategory("whee", "pendul", 2) }, "Id", "Name");
-            if (!string.IsNullOrEmpty(SearchName))
+            CategoryIds = new SelectList(cp.GetRideCategories(), "Id", "Name");
+            if (!string.IsNullOrEmpty(SearchName) || (int)SearchStatus != -1 || SearchCategoryId != -1)
             {
-               
+                Rides = rp.SearchRides(SearchName, SearchCategoryId, (int)SearchStatus);
             }
             else
             {

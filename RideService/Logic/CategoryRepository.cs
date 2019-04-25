@@ -27,5 +27,24 @@ namespace RideService.Logic
 
             return null;
         }
+
+        public List<RideCategory> GetRideCategories()
+        {
+            string sql = $"SELECT * FROM RideCategories";
+            DataSet ds = ExecuteQuery(sql);
+            List<RideCategory> rcl = new List<RideCategory>();
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                RideCategory rideCategory = new RideCategory(
+                    (string)row["Description"],
+                    (string)row["Name"],
+                    (int)row["RideCategoryId"]
+                );
+
+                rcl.Add(rideCategory);
+            }
+
+            return rcl;
+        }
     }
 }

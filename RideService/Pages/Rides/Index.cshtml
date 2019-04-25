@@ -9,12 +9,16 @@
 <h1>Rides</h1>
 <a asp-page="./Create">Create new</a> |
 <form>
-    <label> Search Rides</label>
-    <input asp-for="SearchName" />
+    <label> Search Rides</label><br />
+    <input asp-for="SearchName" /><br />
     <label>Status</label><br />
-    <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<Status>()"></select>
-    <label>Ride Category</label><br />
-    <select asp-for="SearchCategoryId" asp-items="@Model.CategoryIds"></select>
+    <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<Status>()">
+        <option value="-1">Alle</option>
+    </select><br />
+    <label>Category</label><br />
+    <select asp-for="SearchCategoryId" asp-items="@Model.CategoryIds">
+        <option value="-1">Alle</option>
+    </select><br />
     <input type="submit" value="Search" />
 </form>
 <table class="table">
