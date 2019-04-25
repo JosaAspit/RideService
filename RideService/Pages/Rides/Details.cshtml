@@ -5,7 +5,7 @@
     Layout = "_Layout";
 }
 
-<h1>@Model.Ride.Name - Details</h1>
+<h1>Details</h1>
 
 <table class="table">
     <thead>
@@ -23,7 +23,10 @@
                 @Html.DisplayNameFor(model => model.Ride.Description)
             </th>
             <th>
-                Times broken
+                Total breakdowns
+            </th>
+            <th>
+                Days since last breakdown
             </th>
             <th>
 
@@ -31,24 +34,29 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Rides)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-
-                </td>
-            </tr>
-        }
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.Ride.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Ride.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Ride.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Ride.Description)
+            </td>
+            <td>
+                @*@Html.DisplayFor(model => model.TotalBreakdowns)*@
+                @Html.DisplayFor(model => model.Ride.Reports.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.DaysSinceLastBreakdown)
+            </td>
+            <td>
+                <a asp-page="./Details" asp-route-id="@Html.DisplayFor(model => model.Ride.Id)">Details</a> |
+            </td>
+        </tr>
     </tbody>
 </table>
