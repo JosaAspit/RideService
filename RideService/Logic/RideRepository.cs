@@ -24,28 +24,54 @@ namespace RideService.Logic
             return null;
         }
 
-        public List<Ride> SearchRides(string param)
+        public List<Ride> SearchRides(string param, int categoryId, int status)
         {
             CategoryRepository categoryRepository = new CategoryRepository();
             ReportRepository reportRepository = new ReportRepository();
-
-            string sql = $"SELECT * FROM Rides WHERE Name LIKE '%{param}%'";
+            string sql = "";
+            if (!string.IsNullOrEmpty(param))
+            {
+                sql = $"SELECT * FROM Rides WHERE Name LIKE '%{param}%'";
+                if (categoryId != -1)
+                {
+                    sql += $"AND CategoryId = {categoryId}";
+                }
+                if (status != -1)
+                {
+                    sql += $"AND Status = {status}";
+                }
+            }
+            else if (categoryId != -1)
+            {
+                sql = $"SELECT * FROM Rides WHERE CategoryId = {categoryId}";
+                if (status != -1)
+                {
+                    sql += $"AND Status = {status}";
+                }
+            }
+            else if (status != -1)
+            {
+                sql = $"SELECT * FROM Rides WHERE Status = {status}";
+            }
+            else
+            {
+                sql = $"SELECT * FROM Rides";
+            }
             DataSet ds = ExecuteQuery(sql);
             List<Ride> rides = new List<Ride>();
+            List<RideCategory> categories = categoryRepository.GetRideCategories();
             foreach (DataRow row in ds.Tables[0].Rows)
             {
-                RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
+                
                 List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
 
                 Ride ride = new Ride(
-                    reports,
                     (Status)row["Status"],
-                    rideCategory,
                     (string)row["Description"],
                     (string)row["Name"],
                     (int)row["RideId"]
                 );
-
+                ride.Category = categories.Find(c => c.Id == (int)row["CategoryId"]);
                 rides.Add(ride);
             }
 
