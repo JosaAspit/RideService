@@ -20,8 +20,8 @@ namespace RideService.Logic
 
         public int TotalBreakdowns(int id)
         {
-            RideRepository rs = new RideRepository();
-            Ride ride = rs.GetRide(id);
+            RideRepository rideRepository = new RideRepository();
+            Ride ride = rideRepository.GetRide(id);
             int breakdowns = 0;
 
             foreach (Report report in ride.Reports)
@@ -46,20 +46,23 @@ namespace RideService.Logic
 
             foreach (Report report in ride.Reports)
             {
-                if (lastReport is null)
+                if (report.Status == Status.Broken)
                 {
-                    lastReport = report;
-                }
-                else
-                {
-                    if (report.ReportTime.Date < lastReport.ReportTime.Date)
+                    if (lastReport is null)
                     {
                         lastReport = report;
+                    }
+                    else
+                    {
+                        if (report.ReportTime.Date > lastReport.ReportTime.Date)
+                        {
+                            lastReport = report;
+                        }
                     }
                 }
             }
 
-            if (lastReport is null || TotalBreakdowns(id) == 0)
+            if (lastReport is null)
             {
                 return 0;
             }
