@@ -51,6 +51,7 @@ namespace RideService.Logic
 
             return rides;
         }
+        
 
         public List<Ride> GetRides()
         {
