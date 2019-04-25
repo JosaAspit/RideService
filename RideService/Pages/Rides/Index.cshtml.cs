@@ -28,7 +28,7 @@ namespace RideService.Pages.Rides
             CategoryIds = new SelectList(new List<RideCategory> { new RideCategory("våd", "vandland", 1), new RideCategory("whee", "pendul", 2) }, "Id", "Name");
             if (!string.IsNullOrEmpty(SearchName))
             {
-                Rides = rp.SearchRides(SearchName);
+               
             }
             else
             {
