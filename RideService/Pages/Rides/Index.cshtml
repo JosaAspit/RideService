@@ -1,5 +1,6 @@
 ﻿@page
 @model RideService.Pages.Rides.IndexModel
+@using RideService.Models
 @{
     ViewData["Title"] = "Index";
     Layout = "_Layout";
@@ -10,6 +11,10 @@
 <form>
     <label> Search Rides</label>
     <input asp-for="SearchName" />
+    <label>Status</label><br />
+    <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<Status>()"></select>
+    <label>Ride Category</label><br />
+    <select asp-for="SearchCategoryId" asp-items="@Model.CategoryIds"></select>
     <input type="submit" value="Search" />
 </form>
 <table class="table">
@@ -51,4 +56,3 @@
         }
     </tbody>
 </table>
-
