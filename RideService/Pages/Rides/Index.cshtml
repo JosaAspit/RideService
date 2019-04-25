@@ -7,6 +7,11 @@
 
 <h1>Rides</h1>
 <a asp-page="./Create">Create new</a> |
+<form>
+    <label> Search Rides</label>
+    <input asp-for="SearchName" />
+    <input type="submit" value="Search" />
+</form>
 <table class="table">
     <thead>
         <tr>

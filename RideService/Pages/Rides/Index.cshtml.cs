@@ -13,9 +13,19 @@ namespace RideService.Pages.Rides
     {
         RideRepository rp = new RideRepository();
         public List<Ride> Rides { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string SearchName { get; set; }
         public void OnGet()
         {
-            Rides = rp.GetRides();
+            if (!string.IsNullOrEmpty(SearchName))
+            {
+                Rides = rp.SearchRides(SearchName);
+            }
+            else
+            {
+                Rides = rp.GetRides();
+            }
+            
         }
     }
 }
