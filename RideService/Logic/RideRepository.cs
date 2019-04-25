@@ -11,27 +11,14 @@ namespace RideService.Logic
     {
         public Ride GetRide(int id)
         {
-            CategoryRepository categoryRepository = new CategoryRepository();
-            ReportRepository reportRepository = new ReportRepository();
+            List<Ride> rides = GetRides();
 
-            string sql = $"SELECT * FROM Rides WHERE RideId = {id}";
-            DataSet ds = ExecuteQuery(sql);
-
-            foreach (DataRow row in ds.Tables[0].Rows)
+            foreach (Ride ride in rides)
             {
-                RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
-                List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
-
-                Ride ride = new Ride(
-                    reports,
-                    (Status)row["Status"],
-                    rideCategory,
-                    (string)row["Description"],
-                    (string)row["Name"],
-                    (int)row["RideId"]
-                );
-
-                return ride;
+                if (ride.Id == id)
+                {
+                    return ride;
+                }
             }
 
             return null;
@@ -49,6 +36,7 @@ namespace RideService.Logic
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
+                Ride rideToAdd = null;
 
                 bool rideExists = false;
                 foreach (Ride ride in rides)
@@ -66,36 +54,38 @@ namespace RideService.Logic
                         );
 
                         ride.Reports.Add(report);
+
+                        if (rideToAdd is null)
+                        {
+                            rideToAdd = ride;
+                        }
                     }
                 }
 
                 if (!rideExists)
                 {
                     Ride ride = new Ride(
-                        (Status)(int)row["Status"]
-                    )
+                        (Status)(int)row["Status"],
+                        rideCategory,
+                        (string)row["Description"],
+                        (string)row["Name"],
+                        (int)row["RideId"]
+                    );
+
+                    Report report = new Report(
+                        (string)row["Notes"],
+                        (DateTime)row["ReportTime"],
+                        (Status)(int)row["Status"],
+                        ride,
+                        (int)row["RideId"]
+                    );
+
+                    ride.Reports.Add(report);
+
+                    rideToAdd = ride;
                 }
 
-                //Ride ride = new Ride(
-                //    (Status)(int)row["Status"],
-                //    rideCategory,
-                //    (string)row["Description"],
-                //    (string)row["Name"],
-                //    (int)row["RideId"]
-                //);
-
-                //List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
-
-                //Ride ride = new Ride(
-                //    reports,
-                //    (Status)(int)row["Status"],
-                //    rideCategory,
-                //    (string)row["Description"],
-                //    (string)row["Name"],
-                //    (int)row["RideId"]
-                //);
-
-                rides.Add(ride);
+                rides.Add(rideToAdd);
             }
 
             return rides;
