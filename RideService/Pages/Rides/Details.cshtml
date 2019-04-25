@@ -54,7 +54,7 @@
                 @Html.DisplayFor(model => model.DaysSinceLastBreakdown)
             </td>
             <td>
-                <a asp-page="./Details" asp-route-id="@Html.DisplayFor(model => model.Ride.Id)">Details</a> |
+                <a asp-page="/Reports/Index" asp-route-id="@Model.Ride.Id">Reports</a> |
             </td>
         </tr>
     </tbody>

@@ -1,0 +1,43 @@
+﻿@page "{id}"
+@using RideService.Models
+@model RideService.Pages.Reports.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+
+<h1>Reports - @Model.Ride.Name</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Status
+            </th>
+            <th>
+                Report Time
+            </th>
+            <th>
+                Notes
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Report report in Model.Ride.Reports)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => report.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => report.ReportTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => report.Notes)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="/Rides/Details" asp-route-id="@Model.Ride.Id">Back</a>
