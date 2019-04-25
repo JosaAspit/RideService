@@ -37,6 +37,34 @@ namespace RideService.Logic
             return null;
         }
 
+        public List<Ride> SearchRides(string param)
+        {
+            CategoryRepository categoryRepository = new CategoryRepository();
+            ReportRepository reportRepository = new ReportRepository();
+
+            string sql = $"SELECT * FROM Rides WHERE Name LIKE '%{param}%'";
+            DataSet ds = ExecuteQuery(sql);
+            List<Ride> rides = new List<Ride>();
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
+                List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
+
+                Ride ride = new Ride(
+                    reports,
+                    (Status)row["Status"],
+                    rideCategory,
+                    (string)row["Description"],
+                    (string)row["Name"],
+                    (int)row["RideId"]
+                );
+
+                rides.Add(ride);
+            }
+
+            return rides;
+        }
+
         public List<Ride> GetRides()
         {
             CategoryRepository categoryRepository = new CategoryRepository();
