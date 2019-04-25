@@ -43,22 +43,57 @@ namespace RideService.Logic
             ReportRepository reportRepository = new ReportRepository();
 
             List<Ride> rides = new List<Ride>();
-            string sql = "SELECT * FROM dbo.Rides";
+            string sql = "SELECT * FROM Rides INNER JOIN Reports ON Rides.RideId = Reports.RideId";
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
-                List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
 
-                Ride ride = new Ride(
-                    reports,
-                    (Status)(int)row["Status"],
-                    rideCategory,
-                    (string)row["Description"],
-                    (string)row["Name"],
-                    (int)row["RideId"]
-                );
+                bool rideExists = false;
+                foreach (Ride ride in rides)
+                {
+                    if (ride.Id == (int)row["RideId"])
+                    {
+                        rideExists = true;
+
+                        Report report = new Report(
+                            (string)row["Notes"],
+                            (DateTime)row["ReportTime"],
+                            (Status)(int)row["Status"],
+                            ride,
+                            (int)row["RideId"]
+                        );
+
+                        ride.Reports.Add(report);
+                    }
+                }
+
+                if (!rideExists)
+                {
+                    Ride ride = new Ride(
+                        (Status)(int)row["Status"]
+                    )
+                }
+
+                //Ride ride = new Ride(
+                //    (Status)(int)row["Status"],
+                //    rideCategory,
+                //    (string)row["Description"],
+                //    (string)row["Name"],
+                //    (int)row["RideId"]
+                //);
+
+                //List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
+
+                //Ride ride = new Ride(
+                //    reports,
+                //    (Status)(int)row["Status"],
+                //    rideCategory,
+                //    (string)row["Description"],
+                //    (string)row["Name"],
+                //    (int)row["RideId"]
+                //);
 
                 rides.Add(ride);
             }
