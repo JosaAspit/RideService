@@ -58,7 +58,8 @@ namespace RideService.Logic
             ReportRepository reportRepository = new ReportRepository();
 
             List<Ride> rides = new List<Ride>();
-            string sql = "SELECT Rides.RideId, Rides.Name, Rides.Description, Rides.CategoryId, Rides.Status, Reports.Status AS ReportStatus, Reports.ReportTime, Reports.Notes, Reports.RideId AS ReportRideId FROM Rides INNER JOIN Reports ON Rides.RideId = Reports.RideId";
+            string sql = "SELECT Rides.RideId, Rides.Name, Rides.Description, Rides.CategoryId, Rides.Status, Reports.Status AS ReportStatus, Reports.ReportTime, Reports.Notes, Reports.RideId AS ReportRideId FROM Rides LEFT JOIN Reports ON Rides.RideId = Reports.RideId";
+
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)
@@ -77,15 +78,18 @@ namespace RideService.Logic
                         (int)row["RideId"]
                     );
 
-                    Report report = new Report(
-                        (string)row["Notes"],
-                        (DateTime)row["ReportTime"],
-                        (Status)(int)row["ReportStatus"],
-                        ride,
-                        (int)row["ReportRideId"]
-                    );
+                    if (int.TryParse(row["ReportStatus"].ToString(), out int status))
+                    {
+                        Report report = new Report(
+                            (string)row["Notes"],
+                            (DateTime)row["ReportTime"],
+                            (Status)(int)row["ReportStatus"],
+                            ride,
+                            (int)row["ReportRideId"]
+                        );
 
-                    ride.Reports.Add(report);
+                        ride.Reports.Add(report);
+                    }
 
                     rides.Add(ride);
                 }
@@ -95,15 +99,18 @@ namespace RideService.Logic
                     {
                         if (ride.Id == (int)row["RideId"])
                         {
-                            Report report = new Report(
-                                (string)row["Notes"],
-                                (DateTime)row["ReportTime"],
-                                (Status)(int)row["ReportStatus"],
-                                ride,
-                                (int)row["ReportRideId"]
-                            );
+                            if (int.TryParse(row["ReportStatus"].ToString(), out int status))
+                            {
+                                Report report = new Report(
+                                    (string)row["Notes"],
+                                    (DateTime)row["ReportTime"],
+                                    (Status)(int)row["ReportStatus"],
+                                    ride,
+                                    (int)row["ReportRideId"]
+                                );
 
-                            ride.Reports.Add(report);
+                                ride.Reports.Add(report);
+                            }
 
                             rideExists = true;
                         }
@@ -119,15 +126,18 @@ namespace RideService.Logic
                             (int)row["RideId"]
                         );
 
-                        Report report = new Report(
-                            (string)row["Notes"],
-                            (DateTime)row["ReportTime"],
-                            (Status)(int)row["ReportStatus"],
-                            ride,
-                            (int)row["ReportRideId"]
-                        );
+                        if (int.TryParse(row["ReportStatus"].ToString(), out int status))
+                        {
+                            Report report = new Report(
+                                (string)row["Notes"],
+                                (DateTime)row["ReportTime"],
+                                (Status)(int)row["ReportStatus"],
+                                ride,
+                                (int)row["ReportRideId"]
+                            );
 
-                        ride.Reports.Add(report);
+                            ride.Reports.Add(report);
+                        }
 
                         rides.Add(ride);
                     }
@@ -141,6 +151,6 @@ namespace RideService.Logic
             string q = $"insert into Rides (Name, Description, CategoryId, Status) values('{r.Name}', '{r.Description}', {r.Category}, {r.Status})";
 
             return ExecuteNonQuery(q);
-        } 
+        }
     }
 }
