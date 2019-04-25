@@ -86,7 +86,7 @@ namespace RideService.Logic
             ReportRepository reportRepository = new ReportRepository();
 
             List<Ride> rides = new List<Ride>();
-            string sql = "SELECT * FROM Rides INNER JOIN Reports ON Rides.RideId = Reports.RideId";
+            string sql = "SELECT Rides.RideId, Rides.Name, Rides.Description, Rides.CategoryId, Rides.Status, Reports.Status AS ReportStatus, Reports.ReportTime, Reports.Notes, Reports.RideId AS ReportRideId FROM Rides INNER JOIN Reports ON Rides.RideId = Reports.RideId";
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)
@@ -108,9 +108,9 @@ namespace RideService.Logic
                     Report report = new Report(
                         (string)row["Notes"],
                         (DateTime)row["ReportTime"],
-                        (Status)(int)row["Status"],
+                        (Status)(int)row["ReportStatus"],
                         ride,
-                        (int)row["RideId"]
+                        (int)row["ReportRideId"]
                     );
 
                     ride.Reports.Add(report);
@@ -126,9 +126,9 @@ namespace RideService.Logic
                             Report report = new Report(
                                 (string)row["Notes"],
                                 (DateTime)row["ReportTime"],
-                                (Status)(int)row["Status"],
+                                (Status)(int)row["ReportStatus"],
                                 ride,
-                                (int)row["RideId"]
+                                (int)row["ReportRideId"]
                             );
 
                             ride.Reports.Add(report);
@@ -150,9 +150,9 @@ namespace RideService.Logic
                         Report report = new Report(
                             (string)row["Notes"],
                             (DateTime)row["ReportTime"],
-                            (Status)(int)row["Status"],
+                            (Status)(int)row["ReportStatus"],
                             ride,
-                            (int)row["RideId"]
+                            (int)row["ReportRideId"]
                         );
 
                         ride.Reports.Add(report);
