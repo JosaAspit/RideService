@@ -13,23 +13,7 @@ namespace RideService.Logic
         {
             RideRepository rideRepository = new RideRepository();
 
-            //List<Report> reports = new List<Report>();
-            //string sql = $"SELECT * FROM Reports WHERE RideId = {id}";
-            //DataSet ds = ExecuteQuery(sql);
             Ride ride = rideRepository.GetRide(id);
-
-            //foreach (DataRow row in ds.Tables[0].Rows)
-            //{
-            //    Report report = new Report(
-            //        (string)row["Notes"],
-            //        (DateTime)row["ReportTime"],
-            //        (Status)(int)row["Status"],
-            //        ride,
-            //        (int)row["RideId"]
-            //    );
-
-            //    reports.Add(report);
-            //}
 
             return ride.Reports;
         }
@@ -68,14 +52,14 @@ namespace RideService.Logic
                 }
                 else
                 {
-                    if (report.ReportTime.Date > lastReport.ReportTime.Date)
+                    if (report.ReportTime.Date < lastReport.ReportTime.Date)
                     {
                         lastReport = report;
                     }
                 }
             }
 
-            if (lastReport is null)
+            if (lastReport is null || TotalBreakdowns(id) == 0)
             {
                 return 0;
             }

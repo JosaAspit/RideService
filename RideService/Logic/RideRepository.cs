@@ -92,33 +92,10 @@ namespace RideService.Logic
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
-                Ride rideToAdd = null;
 
                 bool rideExists = false;
-                foreach (Ride ride in rides)
-                {
-                    if (ride.Id == (int)row["RideId"])
-                    {
-                        rideExists = true;
 
-                        Report report = new Report(
-                            (string)row["Notes"],
-                            (DateTime)row["ReportTime"],
-                            (Status)(int)row["Status"],
-                            ride,
-                            (int)row["RideId"]
-                        );
-
-                        ride.Reports.Add(report);
-
-                        if (rideToAdd is null)
-                        {
-                            rideToAdd = ride;
-                        }
-                    }
-                }
-
-                if (!rideExists)
+                if (rides.Count == 0)
                 {
                     Ride ride = new Ride(
                         (Status)(int)row["Status"],
@@ -138,10 +115,51 @@ namespace RideService.Logic
 
                     ride.Reports.Add(report);
 
-                    rideToAdd = ride;
+                    rides.Add(ride);
                 }
+                else
+                {
+                    foreach (Ride ride in rides)
+                    {
+                        if (ride.Id == (int)row["RideId"])
+                        {
+                            Report report = new Report(
+                                (string)row["Notes"],
+                                (DateTime)row["ReportTime"],
+                                (Status)(int)row["Status"],
+                                ride,
+                                (int)row["RideId"]
+                            );
 
-                rides.Add(rideToAdd);
+                            ride.Reports.Add(report);
+
+                            rideExists = true;
+                        }
+                    }
+
+                    if (!rideExists)
+                    {
+                        Ride ride = new Ride(
+                            (Status)(int)row["Status"],
+                            rideCategory,
+                            (string)row["Description"],
+                            (string)row["Name"],
+                            (int)row["RideId"]
+                        );
+
+                        Report report = new Report(
+                            (string)row["Notes"],
+                            (DateTime)row["ReportTime"],
+                            (Status)(int)row["Status"],
+                            ride,
+                            (int)row["RideId"]
+                        );
+
+                        ride.Reports.Add(report);
+
+                        rides.Add(ride);
+                    }
+                }
             }
 
             return rides;
