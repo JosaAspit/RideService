@@ -14,12 +14,17 @@ namespace RideService.Pages.Rides
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
         public Ride Ride { get; set; }
+        public int TotalBreakdowns { get; set; }
+        public int DaysSinceLastBreakdown { get; set; }
 
         public void OnGet()
         {
-            RideRepository rs = new RideRepository();
+            ReportRepository reportRepository = new ReportRepository();
+            RideRepository rideRepository = new RideRepository();
 
-            Ride = rs.GetRide(Id);
+            Ride = rideRepository.GetRide(Id);
+            TotalBreakdowns = reportRepository.TotalBreakdowns(Id);
+            DaysSinceLastBreakdown = reportRepository.DaysSinceLastBreakdown(Id);
         }
     }
 }
