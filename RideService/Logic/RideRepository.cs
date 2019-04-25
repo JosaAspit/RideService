@@ -11,12 +11,27 @@ namespace RideService.Logic
     {
         public Ride GetRide(int id)
         {
+            List<Ride> rides = GetRides();
+
+            foreach (Ride ride in rides)
+            {
+                if (ride.Id == id)
+                {
+                    return ride;
+                }
+            }
+
+            return null;
+        }
+
+        public List<Ride> SearchRides(string param)
+        {
             CategoryRepository categoryRepository = new CategoryRepository();
             ReportRepository reportRepository = new ReportRepository();
 
-            string sql = $"SELECT * FROM Rides WHERE RideId = {id}";
+            string sql = $"SELECT * FROM Rides WHERE Name LIKE '%{param}%'";
             DataSet ds = ExecuteQuery(sql);
-
+            List<Ride> rides = new List<Ride>();
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
@@ -31,10 +46,10 @@ namespace RideService.Logic
                     (int)row["RideId"]
                 );
 
-                return ride;
+                rides.Add(ride);
             }
 
-            return null;
+            return rides;
         }
 
         public List<Ride> SearchRides(string param)
@@ -71,24 +86,62 @@ namespace RideService.Logic
             ReportRepository reportRepository = new ReportRepository();
 
             List<Ride> rides = new List<Ride>();
-            string sql = "SELECT * FROM dbo.Rides";
+            string sql = "SELECT * FROM Rides INNER JOIN Reports ON Rides.RideId = Reports.RideId";
             DataSet ds = ExecuteQuery(sql);
 
             foreach (DataRow row in ds.Tables[0].Rows)
             {
                 RideCategory rideCategory = categoryRepository.GetRideCategory((int)row["CategoryId"]);
-                List<Report> reports = reportRepository.GetReportsForRide((int)row["RideId"]);
+                Ride rideToAdd = null;
 
-                Ride ride = new Ride(
-                    reports,
-                    (Status)(int)row["Status"],
-                    rideCategory,
-                    (string)row["Description"],
-                    (string)row["Name"],
-                    (int)row["RideId"]
-                );
+                bool rideExists = false;
+                foreach (Ride ride in rides)
+                {
+                    if (ride.Id == (int)row["RideId"])
+                    {
+                        rideExists = true;
 
-                rides.Add(ride);
+                        Report report = new Report(
+                            (string)row["Notes"],
+                            (DateTime)row["ReportTime"],
+                            (Status)(int)row["Status"],
+                            ride,
+                            (int)row["RideId"]
+                        );
+
+                        ride.Reports.Add(report);
+
+                        if (rideToAdd is null)
+                        {
+                            rideToAdd = ride;
+                        }
+                    }
+                }
+
+                if (!rideExists)
+                {
+                    Ride ride = new Ride(
+                        (Status)(int)row["Status"],
+                        rideCategory,
+                        (string)row["Description"],
+                        (string)row["Name"],
+                        (int)row["RideId"]
+                    );
+
+                    Report report = new Report(
+                        (string)row["Notes"],
+                        (DateTime)row["ReportTime"],
+                        (Status)(int)row["Status"],
+                        ride,
+                        (int)row["RideId"]
+                    );
+
+                    ride.Reports.Add(report);
+
+                    rideToAdd = ride;
+                }
+
+                rides.Add(rideToAdd);
             }
 
             return rides;
