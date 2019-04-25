@@ -48,7 +48,8 @@
                 @Html.DisplayFor(model => model.Ride.Description)
             </td>
             <td>
-                @Html.DisplayFor(model => model.TotalBreakdowns)
+                @*@Html.DisplayFor(model => model.TotalBreakdowns)*@
+                @Html.DisplayFor(model => model.Ride.Reports.Count)
             </td>
             <td>
                 @Html.DisplayFor(model => model.DaysSinceLastBreakdown)
