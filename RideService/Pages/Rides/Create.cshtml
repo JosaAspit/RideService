@@ -2,15 +2,18 @@
 @model RideService.Pages.Rides.CreateModel
 @{
     ViewData["Title"] = "Create";
+    Layout = "_Layout";
 }
 
 <h1>Create new ride</h1>
-<form>
+<form method="post">
+    @Html.AntiForgeryToken()
     <label for="Name"></label><br />
     <input asp-for="Name" /><br />
     <label for="Description"></label><br />
     <input asp-for="Description" /><br />
     <label for="Category"></label><br />
-    <select name="CategoryId"></select>
+    <select asp-for="CategoryId" asp-items="@Model.CategoryIds"></select>
+    <input type="submit" value="Add Ride" />
 </form>
 

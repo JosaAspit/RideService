@@ -175,7 +175,7 @@ namespace RideService.Logic
         }
         public int InsertRide(Ride r)
         {
-            string q = $"insert into Rides (Name, Description, CategoryId, Status) values('{r.Name}', '{r.Description}', {r.Category}, {r.Status})";
+            string q = $"insert into Rides (Name, Description, CategoryId, Status) values('{r.Name}', '{r.Description}', {r.Category.Id}, 0)";
 
             return ExecuteNonQuery(q);
         }
