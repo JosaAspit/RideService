@@ -9,7 +9,7 @@
 
 <form method="post">
     @Html.AntiForgeryToken()
-    <input type="date" asp-for="ReportDate"/><br />
+    <input asp-for="ReportDate" value="@DateTime.Now.ToString("yyyy-MM-dd")"/><br />
     <label asp-for="Status"></label><br />
     <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()"></select><br />
     <label asp-for="Notes"></label><br />
