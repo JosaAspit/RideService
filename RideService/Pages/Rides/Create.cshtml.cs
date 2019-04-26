@@ -20,6 +20,8 @@ namespace RideService.Pages.Rides
         public string Description { get; set; }
         [BindProperty]
         public int CategoryId { get; set; }
+        
+        public string Message { get; set; }
 
         public SelectList CategoryIds { get; set; }
         public void OnGet()
@@ -27,9 +29,12 @@ namespace RideService.Pages.Rides
             CategoryIds = new SelectList(cp.GetRideCategories(), "Id", "Name");
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
             rp.InsertRide(new Ride(new RideCategory(CategoryId), Description, Name));
+            
+                return new RedirectToPageResult($"Index");
+           
         }
     }
 }

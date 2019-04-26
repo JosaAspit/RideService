@@ -1,0 +1,20 @@
+﻿@page "{RideId}"
+@model RideService.Pages.Rides.AddReportModel
+@using RideService.Models
+@{
+    ViewData["Title"] = "AddReport";
+    Layout = "_Layout";
+}
+
+<h1>AddReport</h1>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <input type="date" asp-for="ReportDate"/><br />
+    <label asp-for="Status"></label><br />
+    <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()"></select><br />
+    <label asp-for="Notes"></label><br />
+    <textarea asp-for="Notes"></textarea><br />
+    <input type="submit" value="Add Report" />
+</form>
+

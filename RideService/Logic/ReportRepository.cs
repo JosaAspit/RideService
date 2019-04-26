@@ -18,6 +18,11 @@ namespace RideService.Logic
             return ride.Reports;
         }
 
+        public int InsertReport(Report r)
+        {
+            return ExecuteNonQuery($"insert into Reports(Status, ReportTime, Notes, RideId) values({(int)r.Status}, '{r.ReportTime.ToString("dd-MM-yyyy")} 00:00:00', '{r.Notes}', {r.Ride.Id})");
+        }
+
         public int TotalBreakdowns(int id, List<Ride> ridesList = null)
         {
             RideRepository rideRepository = new RideRepository();
