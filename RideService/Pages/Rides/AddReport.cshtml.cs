@@ -21,6 +21,8 @@ namespace RideService.Pages.Rides
         [DataType(DataType.Date)]
         [BindProperty]
         public DateTime ReportDate { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string RideName { get; set; }
         public void OnGet()
         {
 
