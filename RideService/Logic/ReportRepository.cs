@@ -72,5 +72,49 @@ namespace RideService.Logic
 
             return days;
         }
+
+        public List<Report> SearchReports(int rideId, DateTime date, Status? status, string note)
+        {
+            List<Report> matchingReports = new List<Report>();
+
+            string q = "select * from reports ";
+
+            if (rideId > 0)
+                q += $"where RideId = {rideId} ";
+
+            if (date != null)
+                q += $"where ReportTime = '{date}' ";
+
+            if (status != null)
+                q += $"where status = {status.Value} ";
+
+            if (string.IsNullOrEmpty(note))
+                q += $"where notes like '%{note}%' ";
+
+            DataSet ds = ExecuteQuery(q);
+
+            matchingReports = GetReportsFromDataSet(ds);
+
+            return matchingReports;
+        }
+
+        List<Report> GetReportsFromDataSet(DataSet ds)
+        {
+            List<Report> reports = new List<Report>();
+            RideRepository rp = new RideRepository();
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                Report report = new Report(
+                    (string)row["Notes"],
+                    (DateTime)row["ReportTime"],
+                    (Status)row["status"],
+                    rp.GetRide((int)row["rideid"]),
+                    (int)row["id"]);
+
+                reports.Add(report);
+            }
+            return reports;
+        }
     }
 }
