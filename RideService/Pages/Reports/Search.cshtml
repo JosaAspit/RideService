@@ -1,0 +1,24 @@
+﻿@page
+@model RideService.Pages.Reports.SearchModel
+@using RideService.Models
+@{
+    ViewData["Title"] = "Report Search";
+}
+
+<h1>All Reports</h1>
+
+<form>
+    <label>Search All Reports</label> <br />
+
+    <label>Forlystelse</label> <br />
+    <input asp-for="SearchRideId" /> <br />
+    <label>Dato for oprettelse</label> <br />
+    <input asp-for="SearchDate" /> <br />
+    <label>Forlystelses status</label> <br />
+    <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<Status>()">
+        <option value="-1">Alle</option>
+    </select> <br />
+    <label>Indhold</label> <br />
+    <input asp-for="SearchNote" />
+    <input type="submit" value="Søg" />
+</form>
