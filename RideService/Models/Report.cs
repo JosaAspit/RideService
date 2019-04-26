@@ -14,7 +14,13 @@ namespace RideService.Models
         private Status status;
         private DateTime reportTime;
         private string notes;
-
+        public Report(string notes, DateTime reportTime, Status status, Ride ride)
+        {
+            Notes = notes;
+            ReportTime = reportTime;
+            Status = status;
+            Ride = ride;
+        }
         public Report(string notes, DateTime reportTime, Status status, Ride ride, int id)
         {
             Notes = notes;

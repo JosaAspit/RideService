@@ -13,6 +13,10 @@ namespace RideService.Models
         private RideCategory category;
         private Status status;
         private List<Report> reports = new List<Report>();
+        public Ride(int id)
+        {
+            Id = id;
+        }
         public Ride(RideCategory category, string description, string name)
         {         
             Category = category;

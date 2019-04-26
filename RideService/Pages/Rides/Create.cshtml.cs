@@ -33,7 +33,7 @@ namespace RideService.Pages.Rides
         {
             rp.InsertRide(new Ride(new RideCategory(CategoryId), Description, Name));
             
-                return new RedirectToPageResult("Index");
+                return new RedirectToPageResult($"Index");
            
         }
     }
