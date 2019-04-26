@@ -34,8 +34,16 @@ namespace RideService.Pages.Reports
         public void OnGet()
         {
             Rideids = new SelectList(rideRepository.GetRides(), "Id", "Name");
+            MatchingReports = new List<Report>();
+            if (!string.IsNullOrEmpty(SearchNote) || (int)SearchStatus != -1 || SearchRideId != -1 || SearchDate != default(DateTime))
+            {
 
-            //reportRepository.SearchReports(SearchRideId, SearchDate, SearchStatus, SearchNote);
+            }
+            else
+            {
+                MatchingReports = reportRepository.GetAllReports();
+            }
+
         }
     }
 }

@@ -49,6 +49,8 @@ namespace RideService.Logic
             return breakdowns;
         }
 
+
+
         public int DaysSinceLastRideBreakdown(int id, List<Ride> ridesList = null)
         {
             RideRepository rideRepository = new RideRepository();
@@ -132,5 +134,29 @@ namespace RideService.Logic
 
             return days;
         }
+
+
+        public List<Report> GetAllReports()
+        {
+            List<Report> reports = new List<Report>();
+            RideRepository rb = new RideRepository();
+
+
+            string q = "select * from reports";
+            DataSet ds = ExecuteQuery(q);
+
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                reports.Add(new Report(
+                    (string)row["notes"],
+                    (DateTime)row["reporttime"],
+                    (Status)row["status"],
+                    rb.GetRide((int)row["rideid"]),
+                    (int)row["reportid"]
+                    ));
+            }
+            return reports;
+        }
     }
+
 }
