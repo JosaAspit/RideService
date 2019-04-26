@@ -6,13 +6,19 @@
 }
 
 <h1>Create new ride</h1>
+<br />
+@if (Model.Message != null)
+{
+    <h2>@Model.Message</h2>
+}
+    <br />
 <form method="post">
     @Html.AntiForgeryToken()
-    <label for="Name"></label><br />
+    <label asp-for="Name"></label><br />
     <input asp-for="Name" /><br />
-    <label for="Description"></label><br />
+    <label asp-for="Description"></label><br />
     <input asp-for="Description" /><br />
-    <label for="Category"></label><br />
+    <label>Category</label><br />
     <select asp-for="CategoryId" asp-items="@Model.CategoryIds"></select>
     <input type="submit" value="Add Ride" />
 </form>
