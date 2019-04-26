@@ -23,10 +23,19 @@ namespace RideService.Logic
             return ExecuteNonQuery($"insert into Reports(Status, ReportTime, Notes, RideId) values({(int)r.Status}, '{r.ReportTime.ToString("dd-MM-yyyy")} 00:00:00', '{r.Notes}', {r.Ride.Id})");
         }
 
-        public int TotalBreakdowns(int id)
+        public int TotalBreakdowns(int id, List<Ride> ridesList = null)
         {
             RideRepository rideRepository = new RideRepository();
-            Ride ride = rideRepository.GetRide(id);
+            List<Ride> rides = ridesList;
+            Ride ride = null;
+            if (rides is null)
+            {
+                ride = rideRepository.GetRide(id);
+            }
+            else
+            {
+                ride = rideRepository.GetRide(id, rides);
+            }
             int breakdowns = 0;
 
             foreach (Report report in ride.Reports)
@@ -40,10 +49,19 @@ namespace RideService.Logic
             return breakdowns;
         }
 
-        public int DaysSinceLastBreakdown(int id)
+        public int DaysSinceLastRideBreakdown(int id, List<Ride> ridesList = null)
         {
             RideRepository rideRepository = new RideRepository();
-            Ride ride = rideRepository.GetRide(id);
+            List<Ride> rides = ridesList;
+            Ride ride = null;
+            if (rides is null)
+            {
+                ride = rideRepository.GetRide(id);
+            }
+            else
+            {
+                ride = rideRepository.GetRide(id, rides);
+            }
             int days = 0;
 
             DateTime today = DateTime.Now.Date;
@@ -69,7 +87,7 @@ namespace RideService.Logic
 
             if (lastReport is null)
             {
-                return 0;
+                return -1;
             }
 
             DateTime lastReportDate = lastReport.ReportTime.Date;
@@ -78,48 +96,41 @@ namespace RideService.Logic
             return days;
         }
 
-        public List<Report> SearchReports(int rideId, DateTime date, Status? status, string note)
+        public int? DaysSinceLastBreakdownOnRides(List<Ride> ridesList = null)
         {
-            List<Report> matchingReports = new List<Report>();
-
-            string q = "select * from reports ";
-
-            if (rideId > 0)
-                q += $"where RideId = {rideId} ";
-
-            if (date != null)
-                q += $"where ReportTime = '{date}' ";
-
-            if (status != null)
-                q += $"where status = {status.Value} ";
-
-            if (string.IsNullOrEmpty(note))
-                q += $"where notes like '%{note}%' ";
-
-            DataSet ds = ExecuteQuery(q);
-
-            matchingReports = GetReportsFromDataSet(ds);
-
-            return matchingReports;
-        }
-
-        List<Report> GetReportsFromDataSet(DataSet ds)
-        {
-            List<Report> reports = new List<Report>();
-            RideRepository rp = new RideRepository();
-
-            foreach (DataRow row in ds.Tables[0].Rows)
+            RideRepository rideRepository = new RideRepository();
+            List<Ride> rides = ridesList;
+            if (rides is null)
             {
-                Report report = new Report(
-                    (string)row["Notes"],
-                    (DateTime)row["ReportTime"],
-                    (Status)row["status"],
-                    rp.GetRide((int)row["rideid"]),
-                    (int)row["id"]);
-
-                reports.Add(report);
+                rides = rideRepository.GetRides();
             }
-            return reports;
+            Ride rideToReturn = null;
+            int days = 0;
+
+            foreach (Ride ride in rides)
+            {
+                int daysSinceBreakdown = DaysSinceLastRideBreakdown(ride.Id, rides);
+                if (rideToReturn is null && daysSinceBreakdown != -1)
+                {
+                    days = daysSinceBreakdown;
+                    rideToReturn = ride;
+                }
+                else
+                {
+                    if (daysSinceBreakdown < days && daysSinceBreakdown != -1)
+                    {
+                        days = daysSinceBreakdown;
+                        rideToReturn = ride;
+                    }
+                }
+            }
+
+            if (rideToReturn is null)
+            {
+                return null;
+            }
+
+            return days;
         }
     }
 }

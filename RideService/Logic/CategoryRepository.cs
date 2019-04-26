@@ -46,5 +46,52 @@ namespace RideService.Logic
 
             return rcl;
         }
+
+        public RideCategory GetMostBrokenCategory(List<Ride> ridesList = null)
+        {
+            CategoryRepository categoryRepository = new CategoryRepository();
+            RideRepository rideRepository = new RideRepository();
+            ReportRepository reportRepository = new ReportRepository();
+            List<RideCategory> categories = categoryRepository.GetRideCategories();
+            RideCategory categoryToReturn = null;
+            int breakdowns = 0;
+            List<Ride> rides = ridesList;
+
+            foreach (RideCategory category in categories)
+            {
+                if (categoryToReturn is null)
+                {
+                    categoryToReturn = category;
+                    if (rides is null)
+                    {
+                        breakdowns = reportRepository.TotalBreakdowns(rideRepository.GetMostBrokenRide(category.Id).Id);
+                    }
+                    else
+                    {
+                        breakdowns = reportRepository.TotalBreakdowns(rideRepository.GetMostBrokenRide(category.Id, rides).Id, rides);
+                    }
+                }
+                else
+                {
+                    int categoryBreakdowns = 0;
+                    if (rides is null)
+                    {
+                        categoryBreakdowns = reportRepository.TotalBreakdowns(rideRepository.GetMostBrokenRide(category.Id).Id);
+                    }
+                    else
+                    {
+                        categoryBreakdowns = reportRepository.TotalBreakdowns(rideRepository.GetMostBrokenRide(category.Id, rides).Id, rides);
+                    }
+
+                    if (categoryBreakdowns > breakdowns)
+                    {
+                        categoryToReturn = category;
+                        breakdowns = categoryBreakdowns;
+                    }
+                }
+            }
+
+            return categoryToReturn;
+        }
     }
 }
