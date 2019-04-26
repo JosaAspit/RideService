@@ -35,7 +35,7 @@ namespace RideService.Pages.Reports
         {
             Rideids = new SelectList(rideRepository.GetRides(), "Id", "Name");
 
-            reportRepository.SearchReports(SearchRideId, SearchDate, SearchStatus, SearchNote);
+            //reportRepository.SearchReports(SearchRideId, SearchDate, SearchStatus, SearchNote);
         }
     }
 }

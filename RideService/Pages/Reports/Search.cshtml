@@ -11,7 +11,9 @@
     <label>Search All Reports</label> <br />
 
     <label>Forlystelse</label> <br />
-    <input asp-for="SearchRideId" /> <br />
+    <select asp-for="SearchRideId" asp-items="@Model.Rideids">
+        <option value="-1">Alle</option>
+    </select> <br />
     <label>Dato for oprettelse</label> <br />
     <input asp-for="SearchDate" /> <br />
     <label>Forlystelses status</label> <br />
