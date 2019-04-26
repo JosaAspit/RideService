@@ -18,10 +18,19 @@ namespace RideService.Logic
             return ride.Reports;
         }
 
-        public int TotalBreakdowns(int id)
+        public int TotalBreakdowns(int id, List<Ride> ridesList = null)
         {
             RideRepository rideRepository = new RideRepository();
-            Ride ride = rideRepository.GetRide(id);
+            List<Ride> rides = ridesList;
+            Ride ride = null;
+            if (rides is null)
+            {
+                ride = rideRepository.GetRide(id);
+            }
+            else
+            {
+                ride = rideRepository.GetRide(id, rides);
+            }
             int breakdowns = 0;
 
             foreach (Report report in ride.Reports)
@@ -35,10 +44,19 @@ namespace RideService.Logic
             return breakdowns;
         }
 
-        public int DaysSinceLastBreakdown(int id)
+        public int DaysSinceLastRideBreakdown(int id, List<Ride> ridesList = null)
         {
             RideRepository rideRepository = new RideRepository();
-            Ride ride = rideRepository.GetRide(id);
+            List<Ride> rides = ridesList;
+            Ride ride = null;
+            if (rides is null)
+            {
+                ride = rideRepository.GetRide(id);
+            }
+            else
+            {
+                ride = rideRepository.GetRide(id, rides);
+            }
             int days = 0;
 
             DateTime today = DateTime.Now.Date;
@@ -64,11 +82,48 @@ namespace RideService.Logic
 
             if (lastReport is null)
             {
-                return 0;
+                return -1;
             }
 
             DateTime lastReportDate = lastReport.ReportTime.Date;
             days = (today - lastReportDate).Days;
+
+            return days;
+        }
+
+        public int? DaysSinceLastBreakdownOnRides(List<Ride> ridesList = null)
+        {
+            RideRepository rideRepository = new RideRepository();
+            List<Ride> rides = ridesList;
+            if (rides is null)
+            {
+                rides = rideRepository.GetRides();
+            }
+            Ride rideToReturn = null;
+            int days = 0;
+
+            foreach (Ride ride in rides)
+            {
+                int daysSinceBreakdown = DaysSinceLastRideBreakdown(ride.Id, rides);
+                if (rideToReturn is null && daysSinceBreakdown != -1)
+                {
+                    days = daysSinceBreakdown;
+                    rideToReturn = ride;
+                }
+                else
+                {
+                    if (daysSinceBreakdown < days && daysSinceBreakdown != -1)
+                    {
+                        days = daysSinceBreakdown;
+                        rideToReturn = ride;
+                    }
+                }
+            }
+
+            if (rideToReturn is null)
+            {
+                return null;
+            }
 
             return days;
         }

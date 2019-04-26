@@ -24,7 +24,12 @@ namespace RideService.Pages.Rides
 
             Ride = rideRepository.GetRide(Id);
             TotalBreakdowns = reportRepository.TotalBreakdowns(Id);
-            DaysSinceLastBreakdown = reportRepository.DaysSinceLastBreakdown(Id);
+            DaysSinceLastBreakdown = reportRepository.DaysSinceLastRideBreakdown(Id);
+
+            if (DaysSinceLastBreakdown == -1)
+            {
+                DaysSinceLastBreakdown = 0;
+            }
         }
     }
 }

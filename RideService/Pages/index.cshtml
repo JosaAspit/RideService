@@ -3,3 +3,46 @@
 @{
     Layout = "_Layout";
 }
+
+<h1>Statistics</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Most broken ride
+            </th>
+            <th>
+                Last broken ride
+            </th>
+            <th>
+                Least broken ride
+            </th>
+            <th>
+                Days since last breakdown
+            </th>
+            <th>
+                Most broken category
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.MostBrokenRide.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.LastBrokenRide.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.LeastBrokenRide.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.DaysSinceLastBreakdown)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.MostBrokenCategory.Name)
+            </td>
+        </tr>
+    </tbody>
+</table>
