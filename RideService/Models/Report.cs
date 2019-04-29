@@ -8,7 +8,7 @@ namespace RideService.Models
     public enum Status { Working, Broken, BeingRepaired }
     public class Report
     {
-        
+
         private int id;
         private Ride ride;
         private Status status;
@@ -41,6 +41,14 @@ namespace RideService.Models
         {
             get { return reportTime; }
             set { reportTime = value; }
+        }
+
+        public string DisplayReportTime
+        {
+            get
+            {
+                return reportTime.ToString("yyyy-MM-dd");
+            }
         }
 
 
