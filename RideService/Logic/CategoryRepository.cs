@@ -93,5 +93,9 @@ namespace RideService.Logic
 
             return categoryToReturn;
         }
+        public int InsertRideCategory(RideCategory r)
+        {
+            return ExecuteNonQuery($"Insert into RideCategories(Name, Description) values('{r.Name}','{r.Description}')");
+        }
     }
 }

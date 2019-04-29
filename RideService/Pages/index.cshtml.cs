@@ -19,17 +19,17 @@ namespace RideService.Pages
 
         public void OnGet()
         {
-            CategoryRepository categoryRepository = new CategoryRepository();
-            ReportRepository reportRepository = new ReportRepository();
-            RideRepository rideRepository = new RideRepository();
+            //CategoryRepository categoryRepository = new CategoryRepository();
+            //ReportRepository reportRepository = new ReportRepository();
+            //RideRepository rideRepository = new RideRepository();
 
-            List<Ride> rides = rideRepository.GetRides();
+            //List<Ride> rides = rideRepository.GetRides();
 
-            MostBrokenRide = rideRepository.GetMostBrokenRide(null, rides);
-            LastBrokenRide = rideRepository.GetLastBrokenRide(rides);
-            LeastBrokenRide = rideRepository.GetLeastBrokenRide(rides);
-            DaysSinceLastBreakdown = reportRepository.DaysSinceLastBreakdownOnRides(rides);
-            MostBrokenCategory = categoryRepository.GetMostBrokenCategory(rides);
+            //MostBrokenRide = rideRepository.GetMostBrokenRide(null, rides);
+            //LastBrokenRide = rideRepository.GetLastBrokenRide(rides);
+            //LeastBrokenRide = rideRepository.GetLeastBrokenRide(rides);
+            //DaysSinceLastBreakdown = reportRepository.DaysSinceLastBreakdownOnRides(rides);
+            //MostBrokenCategory = categoryRepository.GetMostBrokenCategory(rides);
         }
     }
 }
