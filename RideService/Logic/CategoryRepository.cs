@@ -76,11 +76,19 @@ namespace RideService.Logic
                     int categoryBreakdowns = 0;
                     if (rides is null)
                     {
-                        categoryBreakdowns = reportRepository.TotalBreakdowns(rideRepository.GetMostBrokenRide(category.Id).Id);
+                        Ride mostBrokenRide = rideRepository.GetMostBrokenRide(category.Id);
+                        if (mostBrokenRide != null)
+                        {
+                            categoryBreakdowns = reportRepository.TotalBreakdowns(mostBrokenRide.Id);
+                        }
                     }
                     else
                     {
-                        categoryBreakdowns = reportRepository.TotalBreakdowns(rideRepository.GetMostBrokenRide(category.Id, rides).Id, rides);
+                        Ride mostBrokenRide = rideRepository.GetMostBrokenRide(category.Id, rides);
+                        if (mostBrokenRide != null)
+                        {
+                            categoryBreakdowns = reportRepository.TotalBreakdowns(mostBrokenRide.Id, rides);
+                        }
                     }
 
                     if (categoryBreakdowns > breakdowns)
