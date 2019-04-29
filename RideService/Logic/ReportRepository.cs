@@ -168,8 +168,8 @@ namespace RideService.Logic
 
             if (rideId > 0)
                 q += $" rideid = {rideId} and";
-            if (date != null && date != default(DateTime))
-                q += $" reportdate = {date} and";
+            if (date != default(DateTime))
+                q += $" reporttime = '{date.ToString("yyyy-MM-dd")}' and";
             if (status != -1)
                 q += $" status = {status} and";
             if (!string.IsNullOrEmpty(notes))
