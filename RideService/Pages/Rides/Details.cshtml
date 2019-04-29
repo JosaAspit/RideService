@@ -1,8 +1,7 @@
 ﻿@page "{id}"
 @model RideService.Pages.Rides.DetailsModel
 @{
-    ViewData["Title"] = "Details";
-    Layout = "_Layout";
+    ViewData["Title"] = "Ride Details";
 }
 
 <h1>Details</h1>
@@ -54,7 +53,7 @@
                 @Html.DisplayFor(model => model.DaysSinceLastBreakdown)
             </td>
             <td>
-                <a asp-page="/Rides/AddReport" asp-route-RideId="@Model.Ride.Id">Add report</a><br />
+                <a asp-page="/Rides/AddReport" asp-route-RideId="@Model.Ride.Id"  asp-route-RideName="@Model.Ride.Name">Add report</a><br />
                 <a asp-page="/Reports/Index" asp-route-id="@Model.Ride.Id">Reports</a> |
             </td>
         </tr>

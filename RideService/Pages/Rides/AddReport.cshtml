@@ -2,15 +2,14 @@
 @model RideService.Pages.Rides.AddReportModel
 @using RideService.Models
 @{
-    ViewData["Title"] = "AddReport";
-    Layout = "_Layout";
+    ViewData["Title"] = "Add Report";
 }
 
-<h1>AddReport</h1>
+<h1>AddReport to @Model.RideName</h1>
 
 <form method="post">
     @Html.AntiForgeryToken()
-    <input type="date" asp-for="ReportDate"/><br />
+    <input asp-for="ReportDate" value="@DateTime.Now.ToString("yyyy-MM-dd")"/><br />
     <label asp-for="Status"></label><br />
     <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()"></select><br />
     <label asp-for="Notes"></label><br />

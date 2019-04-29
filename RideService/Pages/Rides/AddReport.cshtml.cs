@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,8 +18,11 @@ namespace RideService.Pages.Rides
         public string Notes { get; set; }
         [BindProperty]
         public Status Status { get; set; }
+        [DataType(DataType.Date)]
         [BindProperty]
         public DateTime ReportDate { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string RideName { get; set; }
         public void OnGet()
         {
 

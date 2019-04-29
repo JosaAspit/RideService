@@ -26,6 +26,7 @@ namespace RideService
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Errors/default/{0}");
             app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
         }
