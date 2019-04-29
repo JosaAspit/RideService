@@ -37,7 +37,7 @@ namespace RideService.Pages.Reports
             MatchingReports = new List<Report>();
             if (!string.IsNullOrEmpty(SearchNote) || (int)SearchStatus != -1 || SearchRideId != -1 || SearchDate != default(DateTime))
             {
-
+               MatchingReports = reportRepository.GetAllMatchingReports(SearchRideId, SearchDate, (int)SearchStatus, SearchNote);
             }
             else
             {

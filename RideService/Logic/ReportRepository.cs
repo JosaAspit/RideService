@@ -138,14 +138,18 @@ namespace RideService.Logic
 
         public List<Report> GetAllReports()
         {
-            List<Report> reports = new List<Report>();
-            RideRepository rb = new RideRepository();
-
-
             string q = "select * from reports";
             DataSet ds = ExecuteQuery(q);
 
-            foreach (DataRow row in ds.Tables[0].Rows)
+            return ConvertDataSetToReports(ds);
+        }
+
+        List<Report> ConvertDataSetToReports(DataSet dataSet)
+        {
+            List<Report> reports = new List<Report>();
+            RideRepository rb = new RideRepository();
+
+            foreach (DataRow row in dataSet.Tables[0].Rows)
             {
                 reports.Add(new Report(
                     (string)row["notes"],
@@ -157,6 +161,28 @@ namespace RideService.Logic
             }
             return reports;
         }
+
+        public List<Report> GetAllMatchingReports(int rideId, DateTime date, int status, string notes)
+        {
+            string q = "select * from reports where";
+
+            if (rideId > 0)
+                q += $" rideid = {rideId} and";
+            if (date != null && date != default(DateTime))
+                q += $" reportdate = {date} and";
+            if (status != -1)
+                q += $" status = {status} and";
+            if (!string.IsNullOrEmpty(notes))
+                q += $" notes like '%{notes}%' and";
+
+            q = q.Substring(0, q.Length - 3);
+
+            DataSet ds = ExecuteQuery(q);
+
+            return ConvertDataSetToReports(ds);
+        }
+
+
     }
 
 }
