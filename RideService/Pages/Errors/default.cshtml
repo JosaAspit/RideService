@@ -1,0 +1,16 @@
+﻿@page "{errorCode:int}"
+@{ 
+    ViewData["Title"] = "Page not found";
+    int errorCode = int.Parse((string)RouteData.Values["errorCode"]);
+}
+
+<h1>Error! Status Code: @errorCode</h1>
+
+@switch (errorCode)
+{
+    case 404:
+        <p>No such page exists at this location</p>
+        break;
+    default:
+        break;
+}
