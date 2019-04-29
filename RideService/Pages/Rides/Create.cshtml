@@ -4,21 +4,24 @@
     ViewData["Title"] = "Create Ride";
 }
 
-<h1>Create new ride</h1>
-<br />
-@if (Model.Message != null)
-{
-    <h2>@Model.Message</h2>
-}
+<div class="row">
+    <h1>Create new ride</h1>
     <br />
-<form method="post">
-    @Html.AntiForgeryToken()
-    <label asp-for="Name"></label><br />
-    <input asp-for="Name" /><br />
-    <label asp-for="Description"></label><br />
-    <input asp-for="Description" /><br />
-    <label>Category</label><br />
-    <select asp-for="CategoryId" asp-items="@Model.CategoryIds"></select>
-    <input type="submit" value="Add Ride" />
-</form>
-
+    @if (Model.Message != null)
+    {
+        <h2>@Model.Message</h2>
+    }
+    <br />
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-group col-md-5">
+            <label asp-for="Name"></label><br />
+            <input class="form-control" asp-for="Name" /><br />
+            <label asp-for="Description"></label><br />
+            <input class="form-control" asp-for="Description" /><br />
+            <label>Category</label><br />
+            <select class="form-control" asp-for="CategoryId" asp-items="@Model.CategoryIds"></select>
+            <input class="btn btn-primary" type="submit" value="Add Ride" />
+        </div>
+    </form>
+</div>

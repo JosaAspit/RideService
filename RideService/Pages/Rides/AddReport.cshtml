@@ -5,15 +5,18 @@
     ViewData["Title"] = "Add Report";
 }
 
-<h1>AddReport to @Model.RideName</h1>
+<div class="row">
+    <h1>AddReport to @Model.RideName</h1>
 
-<form method="post">
-    @Html.AntiForgeryToken()
-    <input asp-for="ReportDate" value="@DateTime.Now.ToString("yyyy-MM-dd")"/><br />
-    <label asp-for="Status"></label><br />
-    <select asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()"></select><br />
-    <label asp-for="Notes"></label><br />
-    <textarea asp-for="Notes"></textarea><br />
-    <input type="submit" value="Add Report" />
-</form>
-
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div class="form-group col-md-5">
+            <input class="form-control" asp-for="ReportDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" /><br />
+            <label asp-for="Status"></label><br />
+            <select class="form-control" asp-for="Status" asp-items="Html.GetEnumSelectList<Status>()"></select><br />
+            <label asp-for="Notes"></label><br />
+            <textarea class="form-control" asp-for="Notes"></textarea><br />
+            <input class="btn btn-primary" type="submit" value="Add Report" />
+        </div>
+    </form>
+</div>
