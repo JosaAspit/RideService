@@ -15,7 +15,7 @@
         <option value="-1">Alle</option>
     </select> <br />
     <label>Dato for oprettelse</label> <br />
-    <input asp-for="SearchDate" /> <br />
+    <input asp-for="SearchDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" /> <br />
     <label>Forlystelses status</label> <br />
     <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<Status>()">
         <option value="-1">Alle</option>
