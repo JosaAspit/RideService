@@ -39,12 +39,16 @@ namespace RideService.Models
 
         public DateTime ReportTime
         {
+            get { return reportTime; }
+            set { reportTime = value; }
+        }
+
+        public string DisplayReportTime
+        {
             get
             {
-
-                return reportTime.Date;
+                return reportTime.ToString("yyyy-MM-dd");
             }
-            set { reportTime = value; }
         }
 
 
