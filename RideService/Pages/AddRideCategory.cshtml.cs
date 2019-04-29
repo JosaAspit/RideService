@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,11 @@ namespace RideService.Pages
     [BindProperties]
     public class AddRideCategoryModel : PageModel
     {
-        
         public string Name { get; set; }
         public string Description { get; set; }
         public void OnGet()
         {
-
+            
         }
 
         public void OnPost()
@@ -27,6 +27,7 @@ namespace RideService.Pages
             {
                 ViewData["Message"] = "Ride category added succesfully";
             }
+            
         }
     }
 }
