@@ -144,10 +144,13 @@ namespace RideService.Logic
             return ConvertDataSetToReports(ds);
         }
 
-        List<Report> ConvertDataSetToReports(DataSet dataSet)
+        List<Report> ConvertDataSetToReports(DataSet dataSet, List<Ride> rides = null)
         {
             List<Report> reports = new List<Report>();
             RideRepository rb = new RideRepository();
+
+            if (rides == null)
+                rides = rb.GetRides();
 
             foreach (DataRow row in dataSet.Tables[0].Rows)
             {
@@ -155,7 +158,7 @@ namespace RideService.Logic
                     (string)row["notes"],
                     (DateTime)row["reporttime"],
                     (Status)row["status"],
-                    rb.GetRide((int)row["rideid"]),
+                    rides.FirstOrDefault(r => r.Id == ((int)row["rideid"])),
                     (int)row["reportid"]
                     ));
             }
@@ -176,9 +179,7 @@ namespace RideService.Logic
                 q += $" notes like '%{notes}%' and";
 
             q = q.Substring(0, q.Length - 3);
-            DataSet ds = ExecuteQuery(q);
-
-            return ConvertDataSetToReports(ds);
+            return ConvertDataSetToReports(ExecuteQuery(q));
         }
     }
 }
