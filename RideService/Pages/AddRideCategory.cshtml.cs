@@ -23,11 +23,19 @@ namespace RideService.Pages
         public void OnPost()
         {
             CategoryRepository cr = new CategoryRepository();
-            if (cr.InsertRideCategory(new RideCategory(Name, Description)) == 1)
+            int res = cr.InsertRideCategory(new RideCategory(Description, Name));
+            if (res == 1)
             {
                 ViewData["Message"] = "Ride category added succesfully";
             }
-            
+            else if (res == 0)
+            {
+                ViewData["Message"] = "Error! No empty values";
+            }
+            else if (res == -1)
+            {
+                ViewData["Message"] = "Error! Name already exists";
+            }
         }
     }
 }
