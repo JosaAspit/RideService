@@ -1,0 +1,26 @@
+﻿@page
+@model RideService.Pages.AddRideCategoryModel
+@{
+    ViewData["Title"] = "AddRideCategory";
+}
+
+
+<div class="row">
+    <h1>Add Ride Category</h1>
+    @if (!(ViewData["Message"] is null))
+    {
+    <p class="alert alert-primary">@ViewData["Message"]</p>
+    }
+    <form method="post">
+        <div class="form-group col-md-6">
+            @Html.AntiForgeryToken()
+            <label>Name</label>
+            <input class="form-control" asp-for="Name" />
+            <label>Description</label>
+            <input class="form-control" asp-for="Description" />
+            <br />
+            <input class="btn btn-primary  mt-10" type="submit" value="Add Ride Category" />
+        </div>
+    </form>
+</div>
+

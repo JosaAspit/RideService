@@ -15,7 +15,11 @@ namespace RideService.Models
         {
             Id = id;
         }
-
+        public RideCategory(string description, string name)
+        {
+            Description = description;
+            Name = name;
+        }
         public RideCategory(string description, string name, int id)
         {
             Description = description;
