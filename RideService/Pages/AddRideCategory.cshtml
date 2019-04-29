@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{message?}"
 @model RideService.Pages.AddRideCategoryModel
 @{
     ViewData["Title"] = "AddRideCategory";
@@ -9,7 +9,7 @@
     <h1>Add Ride Category</h1>
     @if (!(ViewData["Message"] is null))
     {
-    <p class="alert alert-primary">@ViewData["Message"]</p>
+        <p class="alert alert-primary">@ViewData["Message"]</p>
     }
     <form method="post">
         <div class="form-group col-md-6">
@@ -23,4 +23,3 @@
         </div>
     </form>
 </div>
-

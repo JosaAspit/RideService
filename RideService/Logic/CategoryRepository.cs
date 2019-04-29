@@ -103,7 +103,15 @@ namespace RideService.Logic
         }
         public int InsertRideCategory(RideCategory r)
         {
-            return ExecuteNonQuery($"Insert into RideCategories(Name, Description) values('{r.Name}','{r.Description}')");
+            if (GetRideCategories().Find(c => c.Name == r.Name) != null)
+            {
+                return -1;
+            }
+            if (!string.IsNullOrEmpty(r.Description) && !string.IsNullOrEmpty(r.Name))
+            {
+                return ExecuteNonQuery($"Insert into RideCategories(Name, Description) values('{r.Name}','{r.Description}')");
+            }
+            return 0;
         }
     }
 }
