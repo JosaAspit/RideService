@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace RideService.Pages.Reports
         [BindProperty(SupportsGet = true)]
         public int SearchRideId { get; set; }
 
+        [DataType(DataType.Date)]
         [BindProperty(SupportsGet = true)]
         public DateTime SearchDate { get; set; }
 

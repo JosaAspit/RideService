@@ -47,7 +47,8 @@ namespace RideService.Models
         {
             get
             {
-                return reportTime.ToString("yyyy-MM-dd");
+                string date = reportTime.ToString().Split(' ')[0];
+                return date;
             }
         }
 
