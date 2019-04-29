@@ -8,21 +8,21 @@
 <h1>All Reports</h1>
 
 <form>
-    <label>Search All Reports</label> <br />
-
-    <label>Forlystelse</label> <br />
-    <select asp-for="SearchRideId" asp-items="@Model.Rideids">
-        <option value="-1">Alle</option>
-    </select> <br />
-    <label>Dato for oprettelse</label> <br />
-    <input asp-for="SearchDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" /> <br />
-    <label>Forlystelses status</label> <br />
-    <select asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<Status>()">
-        <option value="-1">Alle</option>
-    </select> <br />
-    <label>Indhold</label> <br />
-    <input asp-for="SearchNote" />
-    <input type="submit" value="Søg" />
+    <div class="form-group col-md-5">
+        <label>Forlystelse</label> <br />
+        <select class="form-control" asp-for="SearchRideId" asp-items="@Model.Rideids">
+            <option value="-1">Alle</option>
+        </select> <br />
+        <label>Dato for oprettelse</label> <br />
+        <input class="form-control" asp-for="SearchDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" /> <br />
+        <label>Forlystelses status</label> <br />
+        <select class="form-control" asp-for="SearchStatus" asp-items="Html.GetEnumSelectList<Status>()">
+            <option value="-1">Alle</option>
+        </select> <br />
+        <label>Indhold</label> <br />
+        <input class="form-control" asp-for="SearchNote" /><br />
+        <input class="btn btn-primary" type="submit" value="Søg" />
+    </div>
 </form>
 
 <table class="table">
