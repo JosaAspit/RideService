@@ -176,13 +176,9 @@ namespace RideService.Logic
                 q += $" notes like '%{notes}%' and";
 
             q = q.Substring(0, q.Length - 3);
-
             DataSet ds = ExecuteQuery(q);
 
             return ConvertDataSetToReports(ds);
         }
-
-
     }
-
 }
